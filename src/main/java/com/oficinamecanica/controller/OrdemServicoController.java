@@ -1,5 +1,6 @@
 package com.oficinamecanica.controller;
 
+import com.oficinamecanica.dto.OrdemServicoRequest;
 import com.oficinamecanica.model.OrdemServico;
 import com.oficinamecanica.service.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,11 @@ public class OrdemServicoController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         ordemServicoService.deleteById(id);
+    }
+
+    // Novo endpoint para emitir uma ordem de serviço
+    @PostMapping("/emitir")
+    public OrdemServico emitirOrdemServico(@RequestBody OrdemServicoRequest request) {
+        return ordemServicoService.emitirOrdemServico(request);
     }
 }

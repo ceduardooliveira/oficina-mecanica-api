@@ -1,5 +1,7 @@
 package com.oficinamecanica.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +23,7 @@ public class OrdemServico {
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
 
+    @JsonManagedReference // Indica o lado "pai" do relacionamento
     @ManyToMany
     @JoinTable(
             name = "ordem_servico_servico", // Nome da tabela de relacionamento
@@ -32,4 +35,14 @@ public class OrdemServico {
     @ManyToOne
     @JoinColumn(name = "mecanico_id")
     private Mecanico mecanico; // Mecânico responsável pela ordem de serviço
+
+    @Override
+    public String toString() {
+        return "OrdemServico{" +
+                "id=" + id +
+                ", data=" + data +
+                ", status='" + status + '\'' +
+                ", valorTotal=" + valorTotal +
+                '}';
+    }
 }

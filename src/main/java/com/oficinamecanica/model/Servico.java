@@ -1,5 +1,7 @@
 package com.oficinamecanica.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,10 +18,21 @@ public class Servico {
     private String descricao;
     private BigDecimal valor;
 
-    @ManyToMany(mappedBy = "servicos") // Relacionamento ManyToMany com OrdemServico
-    private List<OrdemServico> ordensServico; // Lista de ordens de serviço associadas a este serviço
+    @JsonBackReference // Evita serialização cíclica com OrdemServico
+    @ManyToMany(mappedBy = "servicos")
+    private List<OrdemServico> ordensServico;
 
+    @JsonIgnoreProperties("servicos") // Evita serialização cíclica com Mecanico
     @ManyToOne
     @JoinColumn(name = "mecanico_id")
-    private Mecanico mecanico; // Mecânico responsável pelo serviço
+    private Mecanico mecanico;
+
+    @Override
+    public String toString() {
+        return "Servico{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
 }

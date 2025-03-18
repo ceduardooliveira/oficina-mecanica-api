@@ -1,5 +1,6 @@
 package com.oficinamecanica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,7 +15,18 @@ public class Veiculo {
     private String modelo;
     private String placa;
 
+    @JsonIgnoreProperties("veiculos") // Evita serialização cíclica com Cliente
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @Override
+    public String toString() {
+        return "Veiculo{" +
+                "id=" + id +
+                ", marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", placa='" + placa + '\'' +
+                '}';
+    }
 }
